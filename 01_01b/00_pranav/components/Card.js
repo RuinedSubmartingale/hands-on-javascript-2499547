@@ -2,8 +2,7 @@ const buildImage = (imgData) => {
   let srcset = `${imgData.urls.full} ${imgData.width}w`;
   if (imgData.urls.regular) {
     srcset += `, ${imgData.urls.regular} 1080w`;
-  }
-  if (imgData.urls.small) {
+  } else if (imgData.urls.small) {
     srcset += `, ${imgData.urls.small} 400w`;
   }
   return `
