@@ -1,4 +1,4 @@
-function buildImage(imgData, additionalClass = "") {
+const buildImage = (imgData) => {
   let srcset = `${imgData.urls.full} ${imgData.width}w`;
   if (imgData.urls.regular) {
     srcset += `, ${imgData.urls.regular} 1080w`;
@@ -8,7 +8,6 @@ function buildImage(imgData, additionalClass = "") {
   }
   return `
     <img
-      class="${additionalClass}"
       srcset="${srcset}"
       sizes="(max-width: 450px) 400px, (max-width: 800) 1080px"
       src="${imgData.urls.regular}"
@@ -18,7 +17,7 @@ function buildImage(imgData, additionalClass = "") {
       loading="lazy"
     />
   `;
-}
+};
 
 const getDate = (imgData) => {
   const date = new Date(imgData.created_at);
