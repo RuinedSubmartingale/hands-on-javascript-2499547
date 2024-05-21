@@ -9,15 +9,17 @@ import data from "./data.js";
 
 const mainContent = document.querySelector(".main-content");
 
-function createImage(imgData, additionalClass = "") {
+function buildImage(imgData, additionalClass = "") {
+  let srcset = `${imgData.urls.full} ${imgData.width}w`;
+  if (imgData.urls.regular) {
+    srcset += `, ${imgData.urls.regular} 1080w`;
+  } else if (imgData.urls.small) {
+    srcset += `, ${imgData.urls.small} 400w`;
+  }
   return `
     <img
       class="${additionalClass}"
-      srcset="
-        ${imgData.urls.full} ${imgData.width}w,
-        ${imgData.urls.regular} 1080w,
-        ${imgData.urls.small} 400w
-      "
+      srcset="${srcset}"
       sizes="(max-width: 450px) 400px, (max-width: 800) 1080px"
       src="${imgData.urls.regular}"
       width="${imgData.width}"
@@ -28,14 +30,22 @@ function createImage(imgData, additionalClass = "") {
   `;
 }
 
+const getDate = (imgData) => {
+  const date = new Date(imgData.created_at);
+  return date.toLocaleString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+};
+
 const Card = (data) => {
   const imgData = data[0];
-  const date = new Date(imgData.created_at);
 
   const markup = `
     <figure class="image">
-      ${createImage(imgData)}
-      ${createImage(imgData, "inverted-image")}
+      ${buildImage(imgData)}
+      ${buildImage(imgData, "inverted-image")}
       <figcaption class="image__caption">
         <h3 class="image__title">${imgData.description}</h3>
         <div class="image__meta">
@@ -46,11 +56,7 @@ const Card = (data) => {
           <p>
             Uploaded on
             <time class="image__date" datetime="${imgData.created_at}">
-            ${date.toLocaleString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
+            ${getDate(imgData)}
             </time>
           </p>
           <p>
