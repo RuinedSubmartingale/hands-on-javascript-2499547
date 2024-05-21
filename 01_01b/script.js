@@ -30,6 +30,7 @@ function createImage(imgData, additionalClass = "") {
 
 const Card = (data) => {
   const imgData = data[0];
+  const date = new Date(imgData.created_at);
 
   const markup = `
     <figure class="image">
@@ -44,7 +45,13 @@ const Card = (data) => {
           </p>
           <p>
             Uploaded on
-            <time class="image__date" datetime="">${imgData.created_at}</time>
+            <time class="image__date" datetime="${imgData.created_at}">
+            ${date.toLocaleString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
+            </time>
           </p>
           <p>
             <a href="${imgData.links.self}" class="image__link">
