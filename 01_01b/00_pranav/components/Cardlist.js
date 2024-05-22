@@ -1,9 +1,11 @@
 import Card from "./Card.js";
 
 const cardListItem = (imgData) => {
-  return `<li class="cardlist__item">
+  return `
+    <li class="cardlist__item">
       ${Card(imgData)}
-    </li>`;
+    </li>
+  `;
 };
 
 const Cardlist = (data) => {
